@@ -42,7 +42,7 @@ Set up an account on GCP and activate the following API's and generate their res
 - **Google maps api**
 - **Google geocoding api**
 
-    https://cloud.google.com/natural-language/docs/quickstarts
+        https://cloud.google.com/natural-language/docs/quickstarts
 
 Set up a pusher account and generate API keys.
 
@@ -114,3 +114,5 @@ Please make sure to update tests as appropriate.
 -Inziano Joe
 
 ## Licence
+
+        GNU AFFERO GENERAL PUBLIC LICENSE
