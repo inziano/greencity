@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="initial-scale=1.0">
+        <meta charset="utf-8">
+        <title> GreenCity </title>
+    </head>
+    <body>
+        <div id="map" style="width:98vw;height:99vh;">
+        </div>
+        <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
+        <script>
+            var coords = <%- JSON.stringify(coords); %>;
+
+            var loadMap = function () {
+                map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 12,
+                center: coords
+                });
+            }
+
+            function callback( latLng ) {
+                marker = new google.maps.Marker({
+                    position: latLng,
+                    map: map,
+                    title: 'Hello World!',
+                });
+            }
+            // Enable pusher logging - don't include this in production
+            Pusher.logToConsole = true;
+        
+            var pusher = new Pusher('a96978547cb891171c69', {
+                cluster: 'ap2',
+                forceTLS: true
+            });
+
+            var channel = pusher.subscribe('greencity');
+            channel.bind('trash-located', function(data) {
+                var geo = data.geo;
+                var text = JSON.stringify(data.text);
+
+                // Marker
+                markers = new google.maps.Marker({
+                    position: geo,
+                    map: map,
+                    title: text,
+                });
+                markerCluster = new MarkerClusterer(map, markers, {
+                    imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+                });
+
+                // callback( geo);
+            });
+            
+            window.onload = loadMap;
+        </script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxCGK9HRDOaMcKEI1xtpQYjpLwOEtjgS8&callback=initMap"async defer></script>
+    </body>
+</html>
